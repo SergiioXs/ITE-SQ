@@ -1,0 +1,340 @@
+ 
+<script>	
+		//Buscara hasta encontrar un 1 que es usuario encontrado y parara de buscar, mientras no lo encuentre seguira buscando
+		function searchClient(procesos,dependencia,serial,id,Nombre){
+		    t = setTimeout(
+		        function(){
+		        	$.ajax({
+				        type: "POST",
+				        url: "php/modulouses.php",
+				        data: "Action=Search&procesos="+procesos+"&dependencia="+dependencia+"&serial="+serial+"&id="+id+"&Nombre="+Nombre,
+				        success: function(result) {
+				  
+				        	if(result == 1) {
+				        		clearTimeout(t);
+								$("#content").load("html/atendiendo.html");  
+			        		} else {
+			        			
+			        		}
+
+				        }, 
+				        error: function(data) {
+				        	$("#table").html("Aqui hay un error ");
+				        }
+			    	});
+		          searchClient(procesos,dependencia,serial,id,Nombre);
+		        }, 
+		    1000);
+		}
+
+
+	$.ajax({
+        type: "POST",
+        url: "php/modulouses.php",
+        data: "Action=Atendiendo&id="+localStorage.getItem("id"),
+        success: function(result) {
+        	tmp = '{"Atendiendo": '+result+'}';
+	        cliente = JSON.parse(tmp);
+    		if(cliente.Atendiendo[0].Busy == 0){
+    			$("#card").html("<h2 class='ui header'>En descanso...<div class='sub header'>Desde las "+hms(cliente.Atendiendo[0].Rest)+"<br><br><label class='ui basic fluid grey button' id='cerrarSesion' >Cerrar sesión</label></div></h2>");
+    			
+
+    			$("#cerrarSesion").on("click", function () {
+    				$("#csmodalcont").html("<div class='ui small basic modal' id='csmodal'><div class='content'><center><div class='description'><h3>Estas apunto de cerrar sesión, ¿Deseas continuar?</h3></div><br><div class='ui grey button' id='ccsmodal'><i class='remove icon'></i>Cancelar</div><div class='ui inverted white basic button' id='acptcmodal'><i class='checkmark icon'></i>Cerrar sesión</div></center></div></div>");
+    				$('#csmodal')
+					  .modal('show').modal({blurring: true})
+					;
+    				$("#ccsmodal").on('click', function () {
+						$("#csmodal").modal('hide');
+						$("#csmodal").remove();
+					});
+    			});
+    			
+    			$("#acptcmodal").on('click', function () {
+    				 localStorage.removeItem("id");
+    				 localStorage.removeItem("serial");
+    				 window.location.href = "login.html";
+    			});
+    			
+    			if($("#active").prop("checked")){
+    				$("#cerrarSesion").addClass("disabled");
+    			} else {
+    				$("#cerrarSesion").removeClass("disabled");
+    			}
+    		} else {
+    			$("#active").attr("disabled", "disabled");
+				$.ajax({
+			        type: "POST",
+			        url: "php/modulouses.php",
+			        data: "Action=Cliente&id="+cliente.Atendiendo[0].Cliente,
+			        success: function(result2) {
+
+			        	tmp = '{"Cliente": '+result2+'}';
+	       			    Persona = JSON.parse(tmp);
+
+    	  			 	$("#card").html("<h2 class='ui header'><div class='floating ui red label' id='removeClient' style='cursor: pointer;'><i class='remove icon'></i>Remover</div><span id='showInfo' style='cursor: pointer;'>"+Persona.Cliente[0].Nombre+"</span><div class='sub header' >"+Persona.Cliente[0].Carrera+"</div></h2><button class='ui large teal button' style='width: 100%;' id='next'>Siguiente</button><audio src='sound/Notify.mp3' preload='auto' autoplay='autoplay'></audio>"); 
+    	  			 	
+    	  			 	//Modal de personal information
+    	  			 	$("#piname").html(Persona.Cliente[0].Nombre);
+  			 			$("#piid").html(Persona.Cliente[0].id);
+  			 			$("#pidomicilio").html(Persona.Cliente[0].Domicilio);
+  			 			$("#piphone").html(Persona.Cliente[0].Telefono);
+  			 			$("#picarrera").html(Persona.Cliente[0].Carrera);
+
+						$.ajax({
+							url:'img/clients/'+Persona.Cliente[0].id+'.jpg',
+							type:'HEAD',
+							success: function (){
+								$("#pimage").html("<img class='ui medium rounded image' src='img/clients/"+Persona.Cliente[0].id+".jpg' style='width: 100%; margin-left: 4%;' id='userimage'>");
+							},
+							error: function() {
+								$("#pimage").html("<img src='img/clients/noimage.png' style='width: 100%;' id='userimage'>");
+							} 
+						});
+
+
+						// Funcion para mostrarlo
+    	  			 	$("#showInfo").on('click', function () {
+    	  			 		$('#personalModal')
+							  .modal('show')
+							;
+								
+    	  			 		});
+
+    	  			 	//Remover cliente
+						$("#removeClient").on('click', function () {
+							dr = new Date();
+							Ar = dr.getHours()+":"+dr.getMinutes()+":"+dr.getSeconds();
+				        	Br = cliente.Atendiendo[0].Time_Start;
+				        	ResultTimer = getServiceTime(Ar,Br);
+				        	$("#removeModalCont").html("<div class='ui modal' id='removeClientModal'><i class='close icon'></i><div class='header'>Espera un momento!</div><div class='image content'><div class='image'><i class='huge icons'><i class='big red dont icon'></i><i class='black user icon'></i></i></div><div class='description'><h3>Estas apunto de remover a "+Persona.Cliente[0].Nombre+" del proceso!</h3><b>Tiempo transcurrido: "+ResultTimer+"</b><br>Si continuas, el interesado tendra que regresar al modulo de Registro para comenzar nuevamente<br><br>O bien 'forzar cierre', esto implicara tu desconección y el interesado sera regresado a la cola de espera para ser atendido por otro modulo activo.<br><br> <i><b>¿Estas seguro que deseas continuar?</b></i></div></div><div class='actions'><div class='ui left floated button' id='forzarcierre'><i class='warning sign icon'></i>Forzar cierre</div><div class='ui grey  button'><i class='remove icon'></i>No, esperare un poco mas</div><div class='ui black button'><i class='checkmark icon'></i>Si, deseo removerlo</div></div></div>");
+
+							$("#forzarcierre").on('click', function () {
+								$.ajax({
+									type: "POST", 
+									url: "php/modulouses.php", 
+									data: "Action=forzar&id="+localStorage.getItem("id")+"&serial="+localStorage.getItem("serial")+"&id_cliente="+Persona.Cliente[0].id,
+							        success: function(result) {
+										$("#removeClientModal")
+											.modal("hide")
+										;
+										$("#removeClientModal").remove();
+										$("#csmodal").remove();
+							        	$("#active").removeAttr("disabled", "disabled");
+							        	$("#active").prop("checked", "");
+							        	$("#activestatus").html("Desconectado");
+							        	$("#content").load("html/atendiendo.html"); 
+							    	}, error: function(e) {
+							    		$("#table").html(e);
+							    	}
+								});
+							});
+
+							$("#removeClientModal")
+								.modal("show")
+								.modal({blurring: true});
+						});
+
+
+
+						//Siguiente
+				        $("#next").on("click", function () {
+				        	searchClient(obj.Usuario[0].Proceso,obj.Usuario[0].Dependencia,obj.Usuario[0].Serial,localStorage.getItem("id"),obj.Usuario[0].Nombre);
+				        	$("#active").removeAttr("disabled", "disabled");
+				        	d = new Date();
+				        	A = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+				        	B = cliente.Atendiendo[0].Time_Start;
+				        	
+				        	ResultTime = getServiceTime(A,B);
+							
+							$.ajax({type: "POST", url: "php/modulouses.php", data: "Action=Siguiente&id="+localStorage.getItem("id")+"&serial="+localStorage.getItem("serial")+"&ResultTime="+ResultTime+"&id_cliente="+Persona.Cliente[0].id,
+						        success: function(result) {
+						        	$("#cerrarSesion").addClass("disabled");
+						        	$("#content").load("html/atendiendo.html"); 
+						        	$("#table").load("html/modulohistorial.html");
+						        	$("#active").on("click", function () {
+										clearTimeout(t);
+									});
+						    	}
+							});
+							
+			        	});
+			        }
+		    	}); 	
+    		}
+        }, 
+        error: function(data) {
+        	
+        }
+	});
+
+	
+/*
+	$("#active").on('click', function () {
+		clearTimeout(t);
+	});
+*/
+	function hms(x){
+		time = x.split(":");
+		if(parseInt(time[0]) >= 12){
+			hr = parseInt(time[0]) - 12;
+			ss = "PM";
+		} else {
+			hr = parseInt(time[0]);
+			ss = "AM";
+		}
+			
+		return hr+":"+time[1]+" "+ss;
+	}
+
+
+	function getServiceTime(A,B){
+		A = A.split(":");
+		B = B.split(":");
+
+		//Convertir todo a segundos
+		h1 = parseInt(A[0])*3600;
+		h2 = parseInt(B[0])*3600;
+		m1 = parseInt(A[1])*60;
+		m2 = parseInt(B[1])*60;
+		s1 = parseInt(A[2]);
+		s2 = parseInt(B[2]);
+
+		//Sumar todos los segundos
+		A = h1 + m1 + s1;
+		B = h2 + m2 + s2;
+
+		//Hacer la operacion
+		R = A - B;
+
+		if(R < 0){
+			R = 0;
+		}
+
+		//Dar formato TIME
+		s = R;
+		h = 0;
+		m = 0;
+
+		if(s > 59){
+			mP = parseInt(s / 60);
+			s = s - (mP*60);
+			m = m + mP;
+		}
+
+		if(m > 59){
+			hP = parseInt(m / 60);
+			m = m - (hP*60);
+			h = h + hP;
+		}
+
+		if(s < 10)
+			s = "0"+s;
+			
+		if(m < 10)
+			m = "0"+m;
+
+		if(h < 10)
+			h = "0"+h;
+
+		return h+":"+m+":"+s;
+	}
+
+
+
+</script>
+
+	<center>
+		<div class='ui piled segment' style='width: 60%; z-index: 1;' id='card'></div>
+	</center>
+	<span id='visto'></span>
+
+  <div class="card">
+
+  </div>
+<div id='modalcontent'></div>
+
+<!-- REMOVER -->
+<div id='removeModalCont'></div>
+
+<!-- INFORMACION PERSONAL -->
+<div class='ui modal scrolling' id='personalModal' style=' '>
+	<div class='ui close' id='mxm'>x</div>
+	<br>
+	<a class="ui black ribbon label" style="margin-left: 14.5px; width: 39%;">
+		<center>
+			<h4>Información personal</h4>
+		</center>
+	</a>
+	
+	<br><br>
+	<div class="ui grid" style="margin-top: 20px:">
+		<div class="ui six wide column">
+			<center>
+				<div class='image'>
+					<span id='pimage'></span>
+				</div>
+			</center>
+		</div>
+		<div class="ui ten wide column">	
+				<table class="ui selectable celled table" style="width: 95%;">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+						</tr>
+					</thead>
+					<tr>
+						<td>
+							<span id='piname'></span>
+						</td>
+					</tr>
+					<thead>
+						<tr>
+							<th>Identificador</th>
+						</tr>
+					</thead>
+					<tr>
+						<td><span id='piid'></span></td>
+					</tr>
+					<thead>
+						<tr>
+							<th>Carrera</th>
+						</tr>
+					</thead>
+					<tr>
+						<td><span id='picarrera'></span></td>
+					</tr>
+					<thead>
+						<tr>
+							<th>Domicilio</th>
+						</tr>
+					</thead>
+					<tr>
+						<td><span id='pidomicilio'></span></td>
+					</tr>
+					<thead>
+						<tr>
+							<th>Telefono</th>
+						</tr>
+					</thead>
+					<tr>
+						<td><span id='piphone'></span></td>
+					</tr>
+				</table>
+				
+			
+		</div>
+	</div>
+	<div class='ui fluid button' onClick="$('#mxm').click();" style="margin-top: 20px;">Cerrar</div>
+</div>
+                            
+
+<div id='csmodalcont'></div>
+
+<!--
+	$.ajax({type: "POST", url: "php/modulouses.php", data: "",
+        success: function(result2) {
+
+        }
+	}); 	
+-->

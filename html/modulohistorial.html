@@ -1,0 +1,121 @@
+<script type="text/javascript">
+
+	$.ajax({type: "POST", url: "php/modulouses.php", data: "Action=historial&id="+localStorage.getItem("id"),
+        success: function(result3) {
+        	if(result3.length > 6 ) {
+	        	tiempoTotal = "00:00:00";
+	        	info = "";
+	        	hrs = 0;
+	        	mins = 0;
+	        	secs = 0;
+	        	tmps = JSON.parse(result3);
+
+	        	
+	        	$.each(tmps, function(i){
+		        	time = tmps[i].Tiempo.split(":");
+		        	hrs = hrs + parseInt(time[0]);
+		        	mins = mins + parseInt(time[1]);
+		        	secs = secs + parseInt(time[2]);
+		        });
+	        	Pagination = Math.ceil(tmps[0].conteo/10);
+	        	n = 0;
+	        	for(n = 1; n <= Pagination ; n++){
+	        		if(n === 1){
+	        			btn = "<tfoot><tr><th colspan='4'><div class='ui right floated pagination menu'><a class='item' id='btn"+n+"' onClick='getRows(0,10,"+n*10+");'>"+n+"</a>";
+	        		} else {
+	        			btn += "<a class='item' id='btn"+n+"' onClick='getRows("+((n-1)*10)+", "+(n*10)+", "+n*10+");'>"+n+"</a>";
+	        		}
+
+	        		if(n == Pagination){
+	        			btn += "</div></th></tr></tfoot>";
+	        		}
+	        	}
+
+		        TotalTime = orderTime(hrs,mins,secs);
+		        Promedio = avgTime(hrs,mins,secs,tmps[0].conteo);
+	        	$("#aten").html(tmps[0].conteo);
+	        	$("#tts").html(TotalTime); 
+	        	$("#prom").html(Promedio);
+	        	getRows(0,10,10);
+		        
+    		} else {
+    			$("#aten").html("0");
+	        	$("#tts").html("00:00:00"); 
+	        	$("#prom").html("00:00:00");
+		        $("#table").html("<div class='ui message'>No hay registros que mostrar.</div>");
+    		}
+    	}
+	}); 
+
+	function getRows(A,B,C){ //A: Donde iniciara, B: Cuantos registros, C: 
+		info = "";
+		for(;(A<B);A++){
+			
+		    if(tmps[A])
+		    	info = info+"<tr><td>"+tmps[A].id+"</td><td>"+tmps[A].Nombre+"</td><td>"+tmps[A].Carrera+"</td><td>"+tmps[A].Tiempo+"</td></tr>";
+		}
+
+		$("#table").html("<table class='ui selectable table'><thead><tr><th># Identificador</th><th>Nombre</th><th>Carrera</th><th>Tiempo</th></tr></thead><tbody>"+info+""+btn+"</tbody></table>");
+		if(A==C)
+				$("#btn"+(A/10)).addClass("active");
+	}
+
+	function orderTime(h,m,s){
+		if(s > 59){
+			mP = parseInt(s / 60);
+			s = s - (mP*60);
+			m = m + mP;
+		}
+
+		if(m > 59){
+			hP = parseInt(m / 60);
+			m = m - (hP*60);
+			h = h + hP;
+		}
+
+		if(s < 10)
+			s = "0"+s;
+			
+		if(m < 10)
+			m = "0"+m;
+
+		if(h < 10)
+			h = "0"+h;
+
+		return h+":"+m+":"+s;
+	}
+
+
+	function avgTime(h, m, s, c){
+		h = h * 3600;
+		m = m * 60;
+		s = Math.round((h + m + s) / c);
+		h = 0;
+		m = 0;
+		if(s > 59){
+			mP = parseInt(s / 60);
+			s = s - (mP*60);
+			m = m + mP;
+		}
+
+		if(m > 59){
+			hP = parseInt(m / 60);
+			m = m - (hP*60);
+			h = h + hP;
+		}
+
+		if(s < 10)
+			s = "0"+s;
+			
+		if(m < 10)
+			m = "0"+m;
+
+		if(h < 10)
+			h = "0"+h;
+
+		return h+":"+m+":"+s;
+	}
+
+
+</script>
+
