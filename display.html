@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<title>Display</title>
+
+		<script src="js/ajax.js"></script>
+		<link rel='icon' href='img/icon.ico' type='image/x-icon'> 
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+
+
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		<style type="text/css">
+		.Msg{
+			margin-top: -500px;
+			opacity: 0;
+			width: 30%; 
+			height: 200px; 
+			position: fixed; 
+			z-index: 5;  
+			margin-left: 1%;
+		}
+
+		.ShowMsg{
+			margin-top: 10px;
+			width: 30%; 
+			opacity: 1; 
+			height: 200px; 
+			position: fixed; 
+			z-index: 5;  
+			margin-left: 1%;
+			transition-property: margin-top opacity;
+			 transition-duration: 1s;
+			
+		}
+
+		.HideMsg{
+			margin-top: -500px;
+			opacity: 0;
+			width: 30%; 
+			height: 200px; 
+			position: fixed; 
+			z-index: 5;  
+			margin-left: 1%;
+			transition-property: margin-top opacity;
+			transition-duration: 3s;
+		}
+
+		</style>
+		<script type="text/javascript">
+
+		
+		
+
+
+		$(document).ready( function () {
+
+		function ShowDialog(Nombre, Modulo, Turno, ModuloID){
+			$("#Nombre").html(Nombre);
+			$("#Modulo").html(Modulo);
+			$("#Turno").html(Turno);
+			setTimeout( function () {
+				$("#msg").removeClass();
+				$("#msg").addClass("ShowMsg");
+				$("#player").html("<audio autoplay><source src='sound/NEXT.mp3' type='audio/mpeg'></audio>");
+			}, 500);
+			
+			setTimeout( function () {
+				$("#msg").removeClass();
+				$("#msg").addClass("HideMsg");
+			}, 7000);
+			
+			setTimeout( function () {
+				$("#msg").removeClass();
+				$("#msg").addClass("Msg");
+				$.ajax({
+		        type: "POST",
+		        url: "php/modulouses.php",
+		        data:  "Action=setBusy&id=0&Modulo="+ModuloID,
+		        success: function(result) {
+		        	searchClient();
+		        }, 
+		        error: function(data) {
+		        	
+		        }
+	    	});
+				
+			}, 8000);
+
+			
+		}
+		
+		$("#ITE").on('click', function () {
+			ShowDialog();
+		});
+			
+		$.ajax({
+	        type: "POST",
+	        url: "php/modulouses.php",
+	        data:  "Action=getModulos&id=0",
+	        success: function(result) {
+	        	$modulos = result;
+	        }, 
+	        error: function(data) {
+	        	$("#console").html("<div class='ui negative message'><div class='header'>Error critico!</div> Al parecer algo anda mal con el sistema, comunicate con el desarrollador.</div>");
+	        }
+    	});
+
+		function searchClient(){
+			t = setTimeout( function () {
+			
+			$.ajax({
+		        type: "POST",
+		        url: "php/modulouses.php",
+		        data:  "Action=Display&id=0&Modulos="+$modulos,
+		        success: function(result) {
+		        	data = JSON.parse(result);
+		        	//$("#console").html("<div class='ui negative message'>"+result+"</div>");
+		        	if(result.length > 6){
+		        		
+		        		clearTimeout(t);
+		        		ShowDialog(data[0].Nombre, data[0].Modulo, data[0].Turno, data[0].id);	
+		        			
+		        	} 
+		        	
+		        }, 
+		        error: function(data) {
+		        	$("#console").html("<div class='ui negative message'><div class='header'>Error critico!</div> Al parecer algo anda mal con el sistema, comunicate con el desarrollador.</div>");
+		        	clearTimeout(t);
+		        }
+	    	});
+			searchClient();
+			}, 3000);
+		
+		}	
+
+$('#content #video').embed();
+searchClient();
+
+
+	});
+		
+		 
+		</script>
+
+
+
+
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+
+		<div id='player'></div>
+		<div class='Msg' id='msg' style="background-image: url(img/glass.png); background-size: 100% 100%;">
+
+			<div class='ui segment' style="background-color: black;">	
+				<img src="img/glass.png" style="width: 100%; height: 100%; margin: -14px; position: absolute;">
+					<h1 class="ui red center inverted aligned header" style="font-size: 80px;">
+					    <span id='Turno'></span>
+						<div class="sub header">
+							Turno
+						</div>
+					</h1>
+					
+					<center>
+			
+						<h2 class="ui inverted header">
+						  <span id='Nombre'></span> 
+						  <div class="sub header">
+						  Modulo: <span id='Modulo'></span>
+						  </div>
+						</h2>
+
+					</center>
+			</div>		
+		</div>
+
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;' >
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				    Instituto Técnologico de Ensenada
+				    <div class="sub header" style='color: #D8D8D8'>Sistema gestión de colas de espera</div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+		<div id='console' style='width: 95%;  margin-left: 2.5%; margin-top: 15px;'></div>
+
+		<div style='width: 84%; margin-left: 8%; margin-top: 15px;' class='ui segment'>
+			
+			<!-- Video -->	
+			<div id='content' >
+			<div class="ui embed" style="height: 20%;" id='video' data-url="https://www.youtube.com/embed/PXopZ2DBwps?list=PL6E5933294B2DC3DE&amp;controls=0&amp;showinfo=0" data-placeholder="img/vid.png"></div>
+				
+			</div>
+		
+		</div>
+		
+
+	</body>
+</html>

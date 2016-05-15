@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<title>Registro</title>
+
+		<script src="js/ajax.js"></script>
+		<link rel='icon' href='img/icon.ico' type='image/x-icon'> 
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		<script type="text/javascript">
+			$(document).ready( function () {
+				$("#content").load("php/cola.php");
+			});
+		</script>
+
+
+
+
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+
+		<div id='libjs'></div>
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;'>
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				    Instituto Técnologico de Ensenada
+				    <div class="sub header" style='color: #D8D8D8'>Sistema gestión de colas de espera</div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+
+		<center>
+			<label class="ui pointing basic label" style='margin-top: 0px;'>Modulo: Registro</label>
+		</center>
+
+		<div style='width: 80%;  margin-left: 10%; margin-top: 15px;' class='ui segment'>
+			
+
+			<div class="ui icon input" style='float: right;'>
+			  <input placeholder="Buscar..." type="search" id='buscar'>
+			  <i class="search icon"></i>
+			</div>	
+			
+			<!-- Tabla de usuarios en cola -->	
+			<div id='content' style='margin-top: 15px;'>
+				<br><br>
+
+				  <div class="ui active inverted dimmer">
+				    <div class="ui text loader">Cargando contenido</div>
+				  </div>
+			</div>
+		
+		</div>
+		
+
+	</body>
+</html>

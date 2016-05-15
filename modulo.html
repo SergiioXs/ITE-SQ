@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<title>Modulo</title>
+		<script src="js/ajax.js"></script>
+		<link rel='icon' href='img/icon.ico' type='image/x-icon'> 
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/jquery.filtertable.min.js"></script>
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		<script type="text/javascript" src='js/modulo.js'></script>
+
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+		<div id='libjs'></div>
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;'>
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				    Instituto Técnologico de Ensenada
+				    <div class="sub header" style='color: #D8D8D8'>Sistema de gestión de colas de espera</div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+
+		<center>
+			<label class="ui pointing basic label" style='margin-top: 0px;'>Modulo: <span id='Nombre'></span></label>
+		</center>
+		<div id='msgerr'></div>
+		<div style='width: 80%;  margin-left: 10%; margin-top: 15px;' class='ui segment'>
+			
+
+  <div class="ui active inverted dimmer" id='loader'>
+    <div class="ui text loader">Cargando modulo</div>
+  </div>
+
+			<label class="ui black ribbon label" id='Atiende'></label>
+			<div class="ui toggle checkbox" id='divactive' style='float: right;'>
+			  <input type="checkbox" name="public" id='active'>
+			  <label id='activestatus'></label>
+			</div>
+			<div class='ui message'>
+				<center>
+					<div class="ui equal width grid">
+					  <div class="column">
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="clock icon"></i> 
+						      <span id='prom'></span>
+						    </div>
+						    <div class="label">
+						      <b>Tiempo promedio de atencion</b>
+						    </div>
+						  </div>
+					  </div>
+					  <div class="column">
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="clock icon"></i> 
+						      <span id='tts'></span>
+						    </div>
+						    <div class="label">
+						      <b>Tiempo total en servicio</b>
+						    </div>
+						  </div>
+					  </div>
+					  <div class="column">
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="users icon"></i> 
+						      <span id='aten'></span>
+						    </div>
+						    <div class="label">
+						      <b>Total atendidos</b>
+						    </div>
+						  </div>
+					  </div>
+					</div>
+				</center>	
+			</div>
+
+			<!-- Tabla de contenido -->		
+			<div id='content' style='margin-top: 25px;'></div>
+			<!-- </div> -->
+			<!-- Mis atendidos -->
+			<div style='margin-top: 25px;' id='table'></div>
+		</div>
+		
+
+	</body>
+</html>
+

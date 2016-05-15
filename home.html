@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<title>Panel de control</title>
+		<script src="js/ajax.js"></script>
+		<link rel='icon' href='img/icon.png' type='image/x-icon'> 
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		
+		<script type="text/javascript">
+					
+		$(document).ready(function () {
+			//page = "home";
+			//$('#content').load('php/home.php');
+			$.ajax({
+	           type: "POST",
+	           url: "php/init.php",
+	           data: "init=start", // Adjuntar los campos del formulario enviado.
+	           success: function(data){	
+	               	obj = eval("("+data+")");
+	               	$("#Nombre_empresa").html(obj.Nombre);
+	               	$("#Slogan_empresa").html(obj.Slogan);
+	           }
+	        });
+			page = "home";
+			$('#content').load('php/configuracion.html');
+			
+			$('a.item').on('click', function () {
+			    $('a').removeClass('active'); 
+			    $(this).addClass('active');
+			});
+		//Pestañas
+
+			//Home
+			$('#home').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/home.php');
+				$('#buscar').addClass('disabled');
+				$("#contloader").html("");
+			});
+
+			//Procesos
+			$('#procesos').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/procesos.php');
+				page = 'procesos';
+				$("#contloader").html("");
+			});
+
+			//Cola
+			$('#cola').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/cola.php');
+				page = 'cola';
+				$("#contloader").html("");
+			});
+
+			//Modulos
+			$('#modulo').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/modulos.php');
+				page = 'modulos';
+				$("#contloader").html("");
+			});
+
+			//Base de datos completa
+			$('#database').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/clientes.php');
+				page = 'clientes';
+				$("#contloader").html("");
+			});
+
+			//Configuraciones
+			$('#configuracion').on('click', function () {
+				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+				$('#content').load('php/configuracion.html');
+				page = 'configuracion';
+				$("#contloader").html("");
+			});
+
+
+		});
+	
+		</script>
+
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;'>
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				  	<span id='Nombre_empresa'></span>
+				    <div class="sub header" style='color: #D8D8D8'>
+				    	<span id='Slogan_empresa'></span> 
+				    </div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+
+		<center>
+			<label class="ui pointing basic label" style='margin-top: 0px;'>Panel de control</label>
+		</center>
+
+			<div class="ui pointing menu" style='width: 80%;  margin-left: 10%; margin-top: 15px;'>
+			  <a  class="active item" id='home'>
+			  	<i class='home icon'></i>
+			    Inicio
+			  </a>
+			  <a  class="item" id='procesos'>
+			  	<i class='sitemap icon'></i>
+			    Procesos
+			  </a>
+			  <a class="item" id='modulo'>
+			  	<i class='users icon'></i>
+			    Modulos
+			  </a>
+			  <a  class="item" id='cola'>
+			  	<i class='sort content descending icon'></i>
+			    Cola
+			  </a>
+			  <a  class="item" id='database'>
+			  	<i class='database icon'></i>
+			    Base de datos
+			  </a>
+			  <a  class="item" id='configuracion'>
+			  	<i class='settings icon'></i>
+			    Configuraciones
+			  </a>
+			  <a  class="item" id='ayuda'>
+			  	<i class='help circle icon'></i>
+			    Ayuda
+			  </a>
+			  <div class="right menu">
+
+			    <div class="item">
+			      <div class="ui transparent icon input">
+			        <input placeholder="Buscar..." type="search" id='buscar'>
+			        <i class="search link icon"></i>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div class="ui segment" style='width: 80%;  margin-left: 10%; margin-top: 15px;' id='content'>
+			  <span id='contloader'></span>
+			</div>
+
+
+
+	</body>
+</html>

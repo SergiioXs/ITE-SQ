@@ -1,0 +1,411 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<title>Reporte</title>
+		<script src="js/ajax.js"></script>
+		<link rel='icon' href='img/icon.ico' type='image/x-icon'> 
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/jquery.filtertable.min.js"></script>
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		<script src="js/chart.js"></script>
+		<script type="text/javascript">
+			$(document).ready( function () {
+				$("#print").on('click', function () {
+					$("#printContainer").css("display", "none");
+					print();
+				});
+			
+
+
+			});
+
+		</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Cantidad'],
+          ['Esperados',     300],
+          ['Atendidos',      230]
+        ]);
+
+
+        var data1 = google.visualization.arrayToDataTable([
+          ['Task', 'Cantidad'],
+          ['Esperados',     2100],
+          ['Atendidos',      422]
+        ]);
+
+        var options = {
+          title: 'Inscripcion'
+        };
+
+        var options1 = {
+          title: 'Reinscripcion'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
+
+        chart.draw(data, options);
+        chart1.draw(data1, options1);
+
+        /////////////////////////
+         var data2 = google.visualization.arrayToDataTable([
+          ['Hora', 'Inscripcion', 'Reinscripcion'],
+          ['11:00 AM',  20,       44],
+          ['12:00 AM',  12,       23],
+          ['01:00 PM',  6,        14],
+          ['02:00 PM',  32,       15],
+          ['03:00 PM',  44,       22],
+          ['04:00 PM',  20,       32],
+          ['05:00 PM',  15,       12],
+          ['06:00 PM',  13,       5],
+          ['07:00 PM',  8,        9]
+        ]);
+
+        var options2 = {
+          title: 'Registro de horas',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart2 = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart2.draw(data2, options2);
+      }
+    </script>
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+		<div id='libjs'></div>
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;'>
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				    Instituto Técnologico de Ensenada
+				    <div class="sub header" style='color: #D8D8D8'>Sistema de gestión de colas de espera</div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+
+		<center>
+			<label class="ui pointing basic label" id='printContainer' style='margin-top: 0px;'>
+				<div class="ui vertical animated button" tabindex="0" id='print'>
+				  <div class="hidden content">Imprimir</div>
+				  <div class="visible content">
+				    <i class="print large icon"></i>
+				  </div>
+				</div>
+			</label>
+		</center>
+<div id='msgerr'></div>
+
+<div style='width: 100%;  margin-left: ; height: 1120px; margin-top: 15px;' class='ui segment'>
+  <h3 class="ui dividing header" style="margin-top: 15px;">
+    Reporte general
+    <span style="float: right;" class='sub header'>Ensenada Baja Califoria, México. 15 de marzo del 2016</span>
+  </h3>
+  	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis placerat libero, a pharetra sem. Pellentesque iaculis dignissim venenatis. Aenean vel aliquet tortor, quis laoreet felis. Duis vitae pharetra tortor, ut scelerisque lacus. Maecenas non gravida tellus, a lobortis massa. Nulla nec aliquam nunc, ut tempus mauris. Duis lacinia, erat ut commodo laoreet, odio nulla venenatis libero, vehicula finibus purus elit condimentum est.
+  <br><br>
+  <table class="ui table">
+    <thead>
+      <tr>
+      <th>Proceso</th>
+      <th>Alumnos esperados</th>
+      <th>Alumnos atendidos</th>
+      <th>Tiempo usado</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>Inscripcion</td>
+        <td>300</td>
+        <td>230</td>
+        <td>08:35:05</td>
+      </tr>
+      <tr>
+        <td>Reinscripcion</td>
+        <td>2100</td>
+        <td>422</td>
+        <td>06:12:12</td>
+      </tr>
+  </tbody></table>
+  <br><br>
+
+  <div style="width: 100%;">
+  	<center>
+  		<table>
+  			<tr>
+  				<td><div id="piechart" style="width: 400px; height: 200px; "></div></td>
+  				<td><div id="piechart1" style="width: 400px; height: 200px; "></div></td>
+  			</tr>
+  		</table>
+  	</center>
+  </div>
+
+  Integer elementum auctor malesuada. Vestibulum vel vulputate tellus, et sodales metus. In maximus, felis sit amet pulvinar molestie, libero justo sodales nibh, sit amet tempor mauris felis sit amet velit. Sed at interdum lacus. Proin suscipit vel quam ut rhoncus. 
+  <br><br>
+	<table style="margin-left: -50px;width: 90%; margin-top: 0px;">
+		<tr>
+			<td style=""><div id="curve_chart" style="width: 80%; height: 505px"></div></td>
+		</tr>
+	</table>
+
+</div>
+
+<div style='width: 100%;  margin-left: ; height: 1190px; margin-top: 15px;' class='ui segment'>
+  <h3 class="ui dividing header" style="margin-top: 15px;">
+    Modulos
+    <span style="float: right;" class='sub header'>12 modulos registrados</span>
+  </h3>
+
+Praesent semper, ligula eget facilisis venenatis, turpis tellus tempus est, eget laoreet ante purus ut massa. Sed venenatis leo vitae dapibus dapibus. Phasellus ultrices, nunc sed auctor tincidunt, massa urna tempus sem, id hendrerit ex turpis eu erat. Donec nec efficitur lacus. Etiam sit amet diam tincidunt, pellentesque nisi non, porttitor lacus. Etiam a ipsum posuere, viverra nibh congue, laoreet metus. Vivamus sit amet magna vitae est ultrices imperdiet. Nam sodales erat sed massa venenatis fermentum. Proin eu quam tempus dui posuere molestie.
+<br><br>
+<center>
+<table class="ui very basic collapsing celled table" style="width: 100%;">
+  <thead>
+    <tr><th>Empliado</th>
+    <th>Total atendidos</th>
+    <th>Tiempo total en servicio</th>
+    <th>Tiempo promedio</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Lena
+            <div class="sub header">Registro
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        250
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Matthew
+            <div class="sub header">Escolares
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        15
+      </td>
+      <td>
+        02:34:22
+      </td>
+      <td>
+        00:05:12
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Lindsay
+            <div class="sub header">Escolares
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        12
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Revision
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Revision
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Revision
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Revision
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Horarios
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Horarios
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Mark
+            <div class="sub header">Horarios
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="img/nopicture.png" class="ui mini rounded image">
+          <div class="content">
+            Sergio
+            <div class="sub header">Credencializacion
+          </div>
+        </div>
+      </h4></td>
+      <td>
+        11
+      </td>
+      <td>
+        00:00:00
+      </td>
+      <td>
+        00:00:00
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center>
+		
+		</div>
+		
+
+	</body>
+</html>

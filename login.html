@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Login</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta charset='UTF-8'>
+		<link rel='icon' href='img/icon.png' type='image/x-icon'> 
+		<script src="js/ajax.js"></script>
+		<script type="text/javascript" src='js/jquery.js'></script>
+		<script type="text/javascript" src='js/jquery.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="semantic/dist/semantic.js"></script>
+		<script type="text/javascript">
+		
+
+			$(document).ready( function () {
+				if(localStorage.getItem("id") <= 0) {
+					$("#loginbutton").on("click", function () {
+
+						if($("#user").val() != "" && $("#pass").val() != ""){
+							dataString = "user="+($("#user").val())+"&pass="+($("#pass").val());
+							$.ajax({
+						        type: "POST",
+						        url: "php/getlogin.php",
+						        data: dataString,
+						        success: function(result) {
+						        	if(result != 0){
+						        		localStorage.setItem("id", result);
+						        		$("#log").html("<div class='ui icon positive message' style=' margin-top: 15px;'><i class='notched circle loading icon'></i><div class='content'><p>Conectando.</p></div></div>");
+						        		window.location.href = "modulo.html";
+
+						        	} else {
+						        		$("#log").html("<div class='ui negative message' style=' margin-top: 15px;'><i class='icon warning sign'></i>Usuario o contraseña no validos.</div>");						        		
+						        	}
+					        			
+						        }, 
+						        error: function(data) {
+						        	$("#log").html("<div class='ui negative message'><div class='header'>Error critico!</div> Al parecer algo anda mal con el sistema, comunicate con el desarrollador.</div>");
+						        }
+					    	});  	
+
+						} else {
+							$("#log").html("<div class='ui negative message' style=' margin-top: 15px;'><i class='icon warning sign'></i>Usuario o contraseña no validos.</div>");
+						}
+					});
+
+					$( "#pass, #user" ).on( "keydown", function( event ) {
+				      if(event.which == 13)
+				        $("#loginbutton").click();
+				    });
+				} else {
+					window.location.href = "modulo.html";
+				}
+			});
+
+		</script>
+	</head>
+	
+	<body style='background-color: #FAFAFA; '>
+		<div class='ui segment' style='width: 100%; background-color: #014E82; margin-top: -2px;'>
+			<center>
+				<h2 class="ui header ">
+				  <div class="content" id='ITE' style='color: white'>
+				    Instituto Técnologico de Ensenada
+				    <div class="sub header" style='color: #D8D8D8'>Sistema de gestión de colas de espera</div>
+				  </div>
+				</h2>
+			</center>
+		</div>
+<center>
+<label style="font-size: 20px; color: #6E6E6E; font-family: Noto Sans, sans-serif; ">Inicia sesión para acceder al sistema</label>
+</center>
+		<center>
+		<div style='width: 300px;   margin-top: 40px;' class='ui segment'>
+			<center>
+				<img src="img/ITElogo.png" style=' width: 150px; '>
+			</center>
+			<br><br>
+				<div class="ui input" style='width: 100%; margin-top: 10px;'>
+				  <input id='user' placeholder="Usuario" type="text" autofocus="">
+				</div>
+				<br>
+				<div class="ui input" style='width: 100%; margin-top: 10px;'>
+				  <input id='pass' placeholder="Contraseña" type="password">
+				</div>
+				<br>
+				<button class='ui button' id='loginbutton'>Iniciar sesión</button>
+				<div>
+					<div id='log'></div>
+				</div>
+			</center>
+		</div>
+		<br><br>
+	</body>
+</html>
