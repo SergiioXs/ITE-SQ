@@ -1,0 +1,200 @@
+<script type="text/javascript">
+	$('.tabular.menu a.item').on('click', function () {
+	    $('.tabular.menu > a.item').removeClass('active');
+	    $('.tabular.menu > a.item').removeClass('active'); 
+	    $(".sec").css("display", "none");
+	    $(this).addClass('active');
+	    console.log($(this).attr("value"));
+	    $("#"+$(this).attr("value")).css("display", "inline");
+	});
+
+	$("#cdropdown").dropdown();
+</script>
+<span id='cloader'></span>
+<div class="ui grid" >
+  <div class="three wide column" >
+    <div class="ui vertical fluid tabular menu">
+      <a class="active item" value="menuEmpresa">
+        Empresa
+      </a>
+      <a class="item" value="menuRegistro">
+        Registro
+      </a>
+      <a class="item" value="menuDisplay">
+        Display
+      </a>
+      <a class="item" value="menuSistema">
+        Sistema
+      </a>
+    </div>
+  </div>
+  <div class="thirteen wide stretched column">
+    <div class="">
+      
+      <!-- Configuracion de la empresa -->
+      <div id='menuEmpresa' class='sec'>
+      	
+      	<div class="ui grid">
+      		<div class="four wide column">
+		      	<button class="ui icon teal button" id='esave' style="width: 100%;">
+				  <i class="save icon"></i>
+				  Guardar cambios
+				</button>
+			</div>
+			<div class="twelve wide column">
+				<span id="msg1" style="display: none;"></span>
+			</div>
+		</div>
+
+      	<div class="ui message">
+      		Configura la informacion de tu empresa para mostrar en los ecabezados y reportes.
+      	</div>
+      	<label>Nombre de su empresa</label>
+      	<div class='ui input' style="width: 100%;">
+      		<input type="text" placeholder="Mi empresa" id="nombre"></input>
+      	</div>
+      	<br><br>
+      	<label>Slogan</label>
+      	<div class='ui input' style="width: 100%;">
+      		<input type="text" placeholder="Mi slogan" id="slogan"></input>
+      	</div>
+
+      </div>
+
+		<div id='menuRegistro' class="sec" style="display: none;">
+			<button class="ui icon teal button" id='gsistema'>
+			  <i class="save icon"></i>
+			  Guardar cambios
+			</button>
+	      	<br>
+	      	<div class="ui message">
+	      		Configura la manera de que debe operar el modulo de registros
+	      	</div>
+	      	<br>
+	      	<div class="ui middle aligned divided list">
+			    <div class="item">
+				    <div class="left floated content">
+						<div class="ui left floated compact">
+						  <div class="ui toggle checkbox">
+						    <input type="checkbox" checked >
+						    <label></label>
+						  </div>
+						</div>
+				    </div>
+				    <div class="content">
+				      Usar la base de datos para seleciconar a los clientes.
+				    </div>
+			    </div>
+
+			    <div class="item">
+				    <div class="left floated content">
+						<div class="ui left floated compact">
+						  <div class="ui toggle checkbox">
+						    <input type="checkbox">
+						    <label></label>
+						  </div>
+						</div>
+				    </div>
+				    <div class="content">
+				      	No usar base de datos y auto-asignar los identificadores.
+				    </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+    <!-- Configuracion del display -->
+		<div id='menuDisplay' class="sec" style="display: none;">
+			<button class="ui icon teal button" id='gsistema'>
+			  <i class="save icon"></i>
+			  Guardar cambios
+			</button>
+	      	<br>
+	      	<div class="ui message">
+	      		Seleccione lo que le gustaria mostrar en la pantalla.
+	      	</div>
+	      	<label>Tipo de contenido</label>
+	      	<br>
+	      	<div class="ui selection dropdown" id='cdropdown' style="width: 100%;">
+			  <input type="hidden" name="gender">
+			  <i class="dropdown icon"></i>
+			  <div class="default text">Seleccione un tipo de contenido</div>
+			  <div class="menu">
+			    <div class="item" data-value="1">Video</div>
+			    <div class="item" data-value="2">Video URL</div>
+			    <div class="item" data-value="3">Imagen</div>
+			    <div class="item" data-value="4">Solo turnos</div>
+			  </div>
+			</div>
+			<br><br>
+		</div>
+
+      <!-- Configuracion del sistema -->
+	    <div id='menuSistema' class="sec" style="display: none;">
+	  		<button class="ui icon teal button" id='gsistema'>
+			  <i class="save icon"></i>
+			  Guardar cambios
+			</button>
+	      	<br>
+	      	<div class="ui message">
+	      		Alerta! Estas funciones pueden parar o dañar el sistema si esta en uso.
+	      	</div>
+	      	<label>Zona horaria</label>
+	      	<br>
+	      	<div class="ui selection dropdown" id='cdropdown' style="width: 100%;">
+			  <input type="hidden" name="gender">
+			  <i class="dropdown icon"></i>
+			  <div class="default text">Zona horaria</div>
+			  <div class="menu">
+			    <div class="item" data-value="1">Male</div>
+			    <div class="item" data-value="0">Female</div>
+			  </div>
+			</div>
+			<br><br>
+			<label><b>Borrar historial del sistema</b> (Se borraran todas las estadisticas y colas de espera)</label>
+	      	<br>
+	      	<button class="ui orange large  button">Borrar</button>
+	      	<br><br>
+			<label><b>Reestablecer sistema </b>(Se borraran todos los procesos, modulos, colas de espera, base de datos)</label>
+	      	<br>
+	      	<button class="ui red large  button">Reestablecer</button>
+	  	</div>
+
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	
+	$("#esave").on("click", function() {
+		cloaderIn();
+		
+		var nombre = $("#nombre").val();
+		var slogan = $("#slogan").val();
+		$.ajax({
+           type: "POST",
+           url: "php/init.php",
+           data: "init=UPDATE_empresa&nombre="+nombre+"&slogan="+slogan, // Adjuntar los campos del formulario enviado.
+           success: function(data){	
+           		if(data.trim() == 1){
+					$("#msg1").html("<div class='ui positive message'><i class='close icon'></i><div class='header'>Se guardaron los cambios con exito.</div></div>");
+					$("#msg1").fadeIn("slow");
+					$("#Nombre_empresa").html(nombre);
+	               	$("#Slogan_empresa").html(slogan);
+           		}else{
+           			$("#msg1").html("<div class='ui negative message'><i class='close icon'></i><div class='header'>Los datos no son validos.</div></div>");
+					$("#msg1").fadeIn("slow");
+           		}
+           }
+        });
+        cloaderOut();
+	});
+
+function cloaderIn(){
+	$("#cloaer").html("<div class='ui active inverted dimmer'><div class='ui medium text loader'>Loading</div></div>");
+}
+
+function cloaderOut(){
+	$("#cloaer").html("");
+}
+</script>
