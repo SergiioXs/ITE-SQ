@@ -14,10 +14,11 @@ for ($i=0; $i < $cant ; $i++) {
 				Nombre      = '".$_POST['Nombre'][$i]."',
 				Encargado   = '".$_POST['Encargado'][$i]."',
 				Serial      =  ".$_POST['Serial'][$i]."
-			WHERE id = ".($i+1)."
-			");	
+			WHERE id = ".$_POST['id'][$i]);
+
+		SQL("UPDATE modulo SET Nombre = '".$_POST['Nombre'][$i]."' WHERE Serial = ".$_POST['Serial'][$i]);	
 	} catch (Exception $e) {
-		
+		echo $e;
 	}
 	
 }

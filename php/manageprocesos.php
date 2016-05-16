@@ -17,9 +17,10 @@ if($cant){
 			if($_POST['Rule'][$i][0] != "1")
 				$_POST['Rule'][$i] = "1,".$_POST['Rule'][$i];
 		}
-		echo $_POST['Rule'][$i]." / ";
+		
 		try {
 
+			//Agregamos los datos de los procesos
 			SQL("UPDATE proceso
 			SET 
 				Nombre = '".$_POST['Nombre'][$i]."',
@@ -27,15 +28,17 @@ if($cant){
 			WHERE id = ".$_POST['id'][$i]."
 			");
 			
+			//Obtenemos los datos de la regla del proceso en curso en un arreglo sin comas
 			$RuleArray = preg_split("[,]", $_POST['Rule'][$i]);
 			$ArrayLength = sizeof($RuleArray); 
 			$val = "";		
+
 			//Recorre toda la regla
 			for($a = 0 ; $a < $ArrayLength; $a++){
-				if($i == 0)
+				if($i == 0) //Fijamos como inicio el proceso donde el serial sea el primero de la regla 
 					SQL("UPDATE modulo SET Proceso = '".$_POST['id'][$i]."' WHERE Serial = ".$RuleArray[$a]);
 				
-				if($i > 0)
+				if($i > 0) //Concatenamos si 
 					SQL("UPDATE modulo SET Proceso = CONCAT(Proceso, ',".$_POST['id'][$i]."') WHERE Serial = ".$RuleArray[$a]);	
 
 				if($a == 0){
@@ -43,12 +46,9 @@ if($cant){
 				}
 					
 				if($a > 0){
-					$module = getData("SELECT Serial FROM modulo WHERE Serial = ".$RuleArray[$a]);
-					
-					if($i > 0)
-						SQL("UPDATE modulo SET Dependencia = CONCAT(Dependencia, '".$val."') WHERE Serial = ".$module[0]['Serial']);
-					else 
-						SQL("UPDATE modulo SET Dependencia = CONCAT(Dependencia, '".$val.",') WHERE Serial = ".$module[0]['Serial']);
+					$match = getData("SELECT serial FROM modulo WHERE Dependencia LIKE '%$val,%' AND Serial = ".$RuleArray[$a]);
+					if(!rowCount($match))
+						SQL("UPDATE modulo SET Dependencia = CONCAT(Dependencia, '".$val.",') WHERE Serial = ".$RuleArray[$a]);
 					
 				}	
 				$val = $RuleArray[$a];

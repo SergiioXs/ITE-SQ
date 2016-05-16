@@ -114,11 +114,7 @@ $rows = getData("SELECT cliente.id, cliente.Nombre, cliente.Carrera
 				
 				");
 
-if(!rowCount($rows)){
-	echo "<div class='ui warning message'>
-			<div class='header'>Sin registros!</div> No hay usuarios en la base de datos.</div>
-		  </div>";
-} else {
+
 
 ?>
 
@@ -132,6 +128,14 @@ if(!rowCount($rows)){
 		Eliminar seleccion
 </button>
 <div id="msgmodal" style="margin-top: 10px;"></div>
+<?php
+	if(!rowCount($rows)){
+	echo "<div class='ui warning message'>
+			<div class='header'>Sin registros!</div> No hay usuarios en la base de datos.</div>
+		  </div>";
+} else {
+
+?>
 <div id='tablecontent' style="margin-top: 10px;">
 	<table class="ui compact celled table">
 		<thead>

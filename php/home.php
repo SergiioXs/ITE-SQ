@@ -1,4 +1,4 @@
-
+<span id='initloader'></span>
 <script type="text/javascript">
 	var procesos = [];
 	var modulos  =  0;
@@ -66,8 +66,8 @@
 
 
 $("#confirm").on('click', function () {
-	$("#errmsg5").html("Cargando...");
-	$("#initloader").html("<div class='ui inverted active dimmer'><div class='ui large indeterminate text loader'>Preparing Files</div></div>");
+	
+	
 	var errPro = 0, errMo = 0;
 	var inputfile = document.getElementById('archivo');
 	var file = inputfile.files[0];
@@ -76,25 +76,27 @@ $("#confirm").on('click', function () {
     data.append('procesos',procesos);
     data.append('modulos',$("#pro2in").val());
 
-	//dataString = "Procesos="+procesos+"&modulos="+modulos+"&archivo="+($("#archivo"));
- console.log($("#pro2in").val());
- console.log(procesos.length);
 	if(procesos.length == 0)
 		errPro = 1;
 	if($("#pro2in").val() <= 0)
 		errMo = 1;
 		
-
-	$("#initloader").html("");
 	if(errMo || errPro){
 		errMsg = '';
 		if(errMo) errMsg  +='<li>Debes ingresar un numero de modulos positivos.</li>';
 		if(errPro) errMsg +='<li>Debes de ingresar por lo menos 1 proceso.</li>';
-		$('#errmsg5').html("<div class='ui error message'></i><div class='header'>Debes de llenar todos los campos de manera correcta</div><ul class='list'>"+errMsg+"</ul></div>");
+		$('#errmsg6').html("<br><div class='ui error message'></i><div class='header'>Debes de llenar todos los campos de manera correcta</div><ul class='list'>"+errMsg+"</ul></div>");
 			 $('html, body').animate({
-		        scrollTop: $("#errmsg5").offset().top
+		        scrollTop: $("#errmsg6").offset().top
 		    }, 2000);
+
+	$("#initloader").html("");
 	} else {
+		$("#initloader").html("<div class='ui active inverted dimmer'><div class='ui large text loader'>Espere porfavor.</div></div>");
+		$("#errmsg5").html("Cargando...");
+		$('html, body').animate({
+	        scrollTop: $("#processsegment").offset().top
+	    }, 2000);
 		$.ajax({
 	        type: "POST",
 	        url: "php/newsystem.php",
@@ -104,9 +106,19 @@ $("#confirm").on('click', function () {
 			cache:false,
 	        success: function(result) {
 	        	$("#errmsg5").html(result);
+	        	$("#newsysmod").modal({closable: false}).modal('show').modal({
+					blurring: true,
+					onDeny: function(){
+				    	location.reload();
+				    },
+				    onApprove: function() {
+				    	location.reload();         
+				    }
+				});	
 	        }, 
 	        error: function(data) {
 	        	$("#errmsg5").html("<div class='ui negative message'><div class='header'>Error critico!</div> Al parecer algo anda mal con el sistema, comunicate con el desarrollador.</div>");
+	        		$("#initloader").html("");
 	        }
 		});
 	}
@@ -118,11 +130,10 @@ $("#confirm").on('click', function () {
 
 
 
-<span id='initloader'></span>
+
 <center>
 	<img src="img/logo1.png" style="width: 40%;">
 	<h2 class="ui center aligned icon header">
-
 	  Bienvenido al sistema gestor de colas de espera ITE-SQ
 	</h2>
 </center>
@@ -131,7 +142,7 @@ $("#confirm").on('click', function () {
 <br><br>
 </p>
 
-<div class="ui blue segment">
+<div class="ui blue segment" id='processsegment'>
 	<div class="description">
 		<div class="ui grid">
 	    	<div class="four wide column">
@@ -233,5 +244,13 @@ $("#confirm").on('click', function () {
 		Continuar
 	</button>
 </center>
-<br>
-<div id='errmsg5'></div>
+<div id='errmsg6'></div>
+
+<div class="ui basic modal" id='newsysmod'>
+      <div id='errmsg5'></div>
+<center>
+    <div class="actions">
+    	<button class="ui positive button" style="width: 100%; margin-left: 0px;">Continuar</button>
+    </div>
+</center>
+</div>

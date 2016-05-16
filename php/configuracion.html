@@ -28,50 +28,39 @@
       </a>
     </div>
   </div>
-  <div class="thirteen wide stretched column">
+<div class="thirteen wide stretched column">
     <div class="">
       
       <!-- Configuracion de la empresa -->
-      <div id='menuEmpresa' class='sec'>
+      	<div id='menuEmpresa' class='sec'>
       	
-      	<div class="ui grid">
-      		<div class="four wide column">
-		      	<button class="ui icon teal button" id='esave' style="width: 100%;">
-				  <i class="save icon"></i>
-				  Guardar cambios
-				</button>
-			</div>
-			<div class="twelve wide column">
-				<span id="msg1" style="display: none;"></span>
-			</div>
-		</div>
-
-      	<div class="ui message">
-      		Configura la informacion de tu empresa para mostrar en los ecabezados y reportes.
-      	</div>
-      	<label>Nombre de su empresa</label>
-      	<div class='ui input' style="width: 100%;">
-      		<input type="text" placeholder="Mi empresa" id="nombre"></input>
-      	</div>
-      	<br><br>
-      	<label>Slogan</label>
-      	<div class='ui input' style="width: 100%;">
-      		<input type="text" placeholder="Mi slogan" id="slogan"></input>
-      	</div>
-
-      </div>
-
-		<div id='menuRegistro' class="sec" style="display: none;">
-			<button class="ui icon teal button" id='gsistema'>
+	      	<span id="msg1" style="display: none;"></span>
+			
+	      	<div class="ui message">
+	      		<b>Configura la informacion de tu empresa para mostrar en los ecabezados y reportes.</b>
+	      	</div>
+	      	<label style="font-size: 15px;"><b>Nombre de su empresa</b></label>
+	      	<div class='ui input' style="width: 100%;">
+	      		<input type="text" placeholder="Mi empresa" id="nombre"></input>
+	      	</div>
+	      	<br><br>
+	      	<label style="font-size: 15px;"><b>Slogan</b></label>
+	      	<div class='ui input' style="width: 100%;">
+	      		<input type="text" placeholder="Mi slogan" id="slogan"></input>
+	      	</div>
+	      	<br><br>
+	      	<button class="ui icon teal button" id='esave' style="width: 100%;">
 			  <i class="save icon"></i>
 			  Guardar cambios
 			</button>
-	      	<br>
-	      	<div class="ui message">
-	      		Configura la manera de que debe operar el modulo de registros
+        </div>
+
+		<div id='menuRegistro' class="sec" style="display: none;">
+			<div class="ui message">
+	      		<b>Configura la manera de que debe operar el modulo de registros.</b>
 	      	</div>
 	      	<br>
-	      	<div class="ui middle aligned divided list">
+	      	<div class="ui divided list">
 			    <div class="item">
 				    <div class="left floated content">
 						<div class="ui left floated compact">
@@ -100,17 +89,17 @@
 				    </div>
 			    </div>
 			</div>
-		</div>
-	</div>
-    <!-- Configuracion del display -->
-		<div id='menuDisplay' class="sec" style="display: none;">
-			<button class="ui icon teal button" id='gsistema'>
+			<br><br>
+			<button class="ui icon teal button" id='gregistro' style="width: 100%;">
 			  <i class="save icon"></i>
 			  Guardar cambios
 			</button>
-	      	<br>
-	      	<div class="ui message">
-	      		Seleccione lo que le gustaria mostrar en la pantalla.
+		</div>
+	
+   		<!-- Configuracion del display -->
+		<div id='menuDisplay' class="sec" style="display: none;">
+			<div class="ui message">
+	      		<b>Seleccione lo que le gustaria mostrar en la pantalla.</b>
 	      	</div>
 	      	<label>Tipo de contenido</label>
 	      	<br>
@@ -126,42 +115,96 @@
 			  </div>
 			</div>
 			<br><br>
+			<button class="ui icon teal button" id='gsistema' style="width: 100%;">
+			  <i class="save icon"></i>
+			  Guardar cambios
+			</button>
 		</div>
 
       <!-- Configuracion del sistema -->
 	    <div id='menuSistema' class="sec" style="display: none;">
-	  		<button class="ui icon teal button" id='gsistema'>
-			  <i class="save icon"></i>
-			  Guardar cambios
-			</button>
-	      	<br>
-	      	<div class="ui message">
+	      	<div class="ui negative message">
 	      		Alerta! Estas funciones pueden parar o dañar el sistema si esta en uso.
 	      	</div>
-	      	<label>Zona horaria</label>
-	      	<br>
-	      	<div class="ui selection dropdown" id='cdropdown' style="width: 100%;">
-			  <input type="hidden" name="gender">
-			  <i class="dropdown icon"></i>
-			  <div class="default text">Zona horaria</div>
-			  <div class="menu">
-			    <div class="item" data-value="1">Male</div>
-			    <div class="item" data-value="0">Female</div>
-			  </div>
+	      	<div class="ui yellow attached segment">
+			  <label style="font-size: 15px;"><b>Borrar historial del sistema</b>
+			  <br>
+			  Los siguientes datos seran eliminados:<br>
+			  <ul>
+			  	<li>Colas de espera.</li>
+			  	<li>Registros.</li>
+			  </ul>
+			  </label>
+			</div>
+			<div class="ui bottom attached yellow button" id='borrarbtn' >
+			  <i class="warning sign icon"></i>
+			  Borrar datos
 			</div>
 			<br><br>
-			<label><b>Borrar historial del sistema</b> (Se borraran todas las estadisticas y colas de espera)</label>
-	      	<br>
-	      	<button class="ui orange large  button">Borrar</button>
-	      	<br><br>
-			<label><b>Reestablecer sistema </b>(Se borraran todos los procesos, modulos, colas de espera, base de datos)</label>
-	      	<br>
-	      	<button class="ui red large  button">Reestablecer</button>
+	      	<div class="ui red attached segment">
+			  <label style="font-size: 15px;"><b>Restablecer sistema </b>
+			  <br>
+			  Los siguientes datos seran eliminados: <br>
+			  <ul>
+			  	<li>Procesos.</li>
+			  	<li>Modulos.</li>
+			  	<li>Base de datos.</li>
+			  	<li>Colas de espera.</li>
+			  	<li>Registros.</li>
+			  </ul>
+			  </label>
+			</div>
+			<div class="ui bottom attached negative button" id='reestablecerbtn' >
+			  <i class="warning circle icon"></i>
+			  Restablecer sistema
+			</div>
 	  	</div>
 
 
+    	</div>
+  	</div>
+</div>
+
+<div class="ui basic modal" id='confirmmodal1'>
+    <div class="content">
+	    <div class="description">
+	      <label style="font-size: 16px;"><b><center>Los datos eliminados no podran ser recuperados. <br>¿Deseas continuar?</b></label>
+	      <br><br>
+	      <div class="actions">
+		      <button class="ui cancel dark button" style="width: 30%;">Cancelar</button>
+		      <button class="ui ok grey button" style="width: 30%;">Continuar</button>
+		   </div>
+	      </center>
+	    </div>
+	</div>
+</div>
+
+<div class="ui basic modal" id='confirmmodal2'>
+    <div class="content">
+	    <div class="description">
+	      <label style="font-size: 16px;"><b><center>Los datos eliminados no podran ser recuperados. <br>¿Deseas continuar?</b></label>
+	      <br><br>
+	      <div class="actions">
+		      <button class="ui cancel dark button" style="width: 30%;">Cancelar</button>
+		      <button class="ui ok grey button" style="width: 30%;">Continuar</button>
+		   </div>
+	      </center>
+	    </div>
+	</div>
+</div>
+
+<div class="ui modal" id='finalmsg'>
+    <div class="description">
+      <br>
+      <center>
+      <label style="font-size: 16px;"><b id='finaltxt'></b></label>
+      <br><br>
+      <div class="actions">
+	      <button class="ui ok button">Ok</button>
+	   </div>
+      </center>
+      <br>
     </div>
-  </div>
 </div>
 
 <script type="text/javascript">
@@ -190,11 +233,79 @@
         cloaderOut();
 	});
 
+	$("#borrarbtn").on("click", function () {
+		cloaderIn();
+		$("#confirmmodal1").modal('show').modal({
+			blurring: true,
+			onDeny: function(){
+		    	cloaderOut();
+		    },
+		    onApprove: function() {
+		        $.ajax({
+		           type: "POST",
+		           url: "php/init.php",
+		           data: "init=UPDATE_sistema&todo=borrar", // Adjuntar los campos del formulario enviado.
+		           success: function(data){	
+		           		if(data.trim() == 1){
+							$("#finaltxt").html("Se ha borrado la información");
+							$("#finalmsg").modal('show');
+							
+		           		}else{
+		           			$("#finaltxt").html("Ah ocurrido un problema por lo cual no se a podido borrar la información, intentelo nuevamente mas tarde.");
+							$("#finalmsg").modal('show');
+		           		}
+		           		cloaderOut();
+		           },
+		           error: function(){
+		           		cloaderOut();
+		           }
+		        });      
+		    }
+		});
+	});
+	
+	$("#reestablecerbtn").on("click", function () {
+		cloaderIn();
+		$("#confirmmodal1").modal('show').modal({
+			blurring: true,
+			onDeny: function(){
+		    	cloaderOut();
+		    },
+		    onApprove: function() {
+		        $.ajax({
+		           type: "POST",
+		           url: "php/init.php",
+		           data: "init=UPDATE_sistema&todo=reestablecer", // Adjuntar los campos del formulario enviado.
+		           success: function(data){	
+		           		if(data.trim() == 1){
+							$("#finaltxt").html("Se ha restablecido el sistema.");
+							$("#finalmsg").modal('show');
+							location.reload();
+		           		}else{
+		           			$("#finaltxt").html("Ah ocurrido un problema por lo cual no se a podido restablecer el sistema, intentelo nuevamente mas tarde.");
+							$("#finalmsg").modal('show');
+		           		}
+		           		cloaderOut();
+		           },
+		           error: function(){
+		           		$("#finaltxt").html("Ah ocurrido un problema por lo cual no se a podido restablecer el sistema, intentelo nuevamente mas tarde.");
+							$("#finalmsg").modal('show');
+		           		cloaderOut();
+		           }
+		        });      
+		    }
+		});
+	});
+
 function cloaderIn(){
-	$("#cloaer").html("<div class='ui active inverted dimmer'><div class='ui medium text loader'>Loading</div></div>");
+	$("#cloader").html("<div class='ui active inverted dimmer'><div class='ui medium text loader'>Espere porfavor.</div></div>");
 }
 
 function cloaderOut(){
-	$("#cloaer").html("");
+	$("#cloader").html("");
 }
+
 </script>
+
+
+

@@ -5,8 +5,19 @@
 ;
 
 	$("#verid").on('click', function () {
-			alert($("#proc1").val());
-	
+		dataString = "new=modulo"; 
+		$.ajax({
+           type: "POST",
+           url: "php/createnew.php",
+           data: dataString, 
+           success: function(data)
+           {
+               $("#content").load("php/modulos.php");
+           },
+           error: function(datas){
+           		$('#logmsg').html("No se pudo agregar un nuevo proceso, al parecer algo anda mal en el sistema");
+           }
+         });
 	});
 
 
@@ -118,6 +129,7 @@ if(!rowCount($rows)){
 			echo "
 			
 			<tr>
+				<input type='hidden' value='".$rows[$i]['id']."' name='id[]'></input>
 				<td>
 					<div class='ui $disabled transparent input' style='width: 40px;'>
 					  <input type='number' value='".$rows[$i]["Serial"]."' id='serialput' min='2' name='Serial[]'>

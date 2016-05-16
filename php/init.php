@@ -31,6 +31,33 @@
 				
 				return 0;
 			break;
+			case 'UPDATE_sistema':
+					if($_POST['todo'] == "borrar"){
+						try {
+							SQL("TRUNCATE TABLE registro");
+							SQL("TRUNCATE TABLE atendidos");
+								
+							echo 1;
+						} catch (Exception $e) {
+							echo 0;
+						}
+					}
+
+					if($_POST['todo'] == "reestablecer"){
+						try {
+							 SQL("TRUNCATE TABLE registro");
+							 SQL("TRUNCATE TABLE cliente");
+							 SQL("TRUNCATE TABLE modulo");
+							 SQL("TRUNCATE TABLE proceso");
+							 SQL("TRUNCATE TABLE atendidos");
+							 SQL("UPDATE config SET Activo = 0");
+							echo 1;
+						} catch (Exception $e) {
+							echo 0;
+						}
+					}
+				return 0;
+			break;
 			
 			default:
 				# code...
