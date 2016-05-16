@@ -26,10 +26,46 @@
 	               	obj = eval("("+data+")");
 	               	$("#Nombre_empresa").html(obj.Nombre);
 	               	$("#Slogan_empresa").html(obj.Slogan);
+	               	if(obj.Activo){
+	               		$("#procesos, #modulo, #database, #cola").css("display", "inline");
+	               		//Procesos
+						$('#procesos').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('php/procesos.php');
+							page = 'procesos';
+							$("#contloader").html("");
+						});
+
+						//Cola
+						$('#cola').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('php/cola.php');
+							page = 'cola';
+							$("#contloader").html("");
+						});
+
+						//Modulos
+						$('#modulo').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('php/modulos.php');
+							page = 'modulos';
+							$("#contloader").html("");
+						});
+
+						//Base de datos completa
+						$('#database').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('php/clientes.php');
+							page = 'clientes';
+							$("#contloader").html("");
+						});
+	               	} else {
+
+	               	}
 	           }
 	        });
 			page = "home";
-			$('#content').load('php/configuracion.html');
+			$('#content').load('php/home.php');
 			
 			$('a.item').on('click', function () {
 			    $('a').removeClass('active'); 
@@ -45,37 +81,7 @@
 				$("#contloader").html("");
 			});
 
-			//Procesos
-			$('#procesos').on('click', function () {
-				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
-				$('#content').load('php/procesos.php');
-				page = 'procesos';
-				$("#contloader").html("");
-			});
-
-			//Cola
-			$('#cola').on('click', function () {
-				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
-				$('#content').load('php/cola.php');
-				page = 'cola';
-				$("#contloader").html("");
-			});
-
-			//Modulos
-			$('#modulo').on('click', function () {
-				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
-				$('#content').load('php/modulos.php');
-				page = 'modulos';
-				$("#contloader").html("");
-			});
-
-			//Base de datos completa
-			$('#database').on('click', function () {
-				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
-				$('#content').load('php/clientes.php');
-				page = 'clientes';
-				$("#contloader").html("");
-			});
+			
 
 			//Configuraciones
 			$('#configuracion').on('click', function () {
@@ -115,19 +121,19 @@
 			  	<i class='home icon'></i>
 			    Inicio
 			  </a>
-			  <a  class="item" id='procesos'>
+			  <a  class="item" id='procesos' style="display: none;">
 			  	<i class='sitemap icon'></i>
 			    Procesos
 			  </a>
-			  <a class="item" id='modulo'>
+			  <a class="item" id='modulo' style="display: none;">
 			  	<i class='users icon'></i>
 			    Modulos
 			  </a>
-			  <a  class="item" id='cola'>
+			  <a  class="item" id='cola' style="display: none;">
 			  	<i class='sort content descending icon'></i>
 			    Cola
 			  </a>
-			  <a  class="item" id='database'>
+			  <a  class="item" id='database' style="display: none;">
 			  	<i class='database icon'></i>
 			    Base de datos
 			  </a>
@@ -152,7 +158,7 @@
 			<div class="ui segment" style='width: 80%;  margin-left: 10%; margin-top: 15px;' id='content'>
 			  <span id='contloader'></span>
 			</div>
-
+		<br><br>
 
 
 	</body>
