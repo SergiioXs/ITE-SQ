@@ -7,6 +7,21 @@
 
 */
 $(document).ready(function () {
+	$.ajax({
+       type: "POST",
+       url: "php/init.php",
+       data: "init=start", // Adjuntar los campos del formulario enviado.
+       success: function(data){	
+           	obj = eval("("+data+")");
+           	if(!obj.Activo){
+           		localStorage.removeItem("id");
+           		localStorage.removeItem("serial");
+           		window.location.href = "login.html";
+           	}
+           	$("#Nombre_empresa").html(obj.Nombre);
+           	$("#Slogan_empresa").html(obj.Slogan);
+        	}
+	});
 	if(localStorage.getItem("id")>0){
 		//Informacion sobre el que atiende 
 		var userID = localStorage.getItem("id");
