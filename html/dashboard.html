@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src='js/charts.js'></script>
+	<script type="text/javascript">
+			
+			$.ajax({
+	           type: "POST",
+	           url: "php/init.php",
+	           data: "init=GET_line_chart", // Adjuntar los campos del formulario enviado.
+	           success: function(response){
+	           		console.log(response);	
+	           		
+	               	obj = eval("("+response+")");
+	               	console.log(obj);
+	               	count = obj._count;
+	               	label=[];
+	               	dat = [];
+	               	for (var i = 0; i < count; i++) {
+	               		label[i] = obj.data[i].label;
+	               		dat[i] = obj.data[i].data; 
+	               	}
+
+	               		var data = {
+					    labels: label,
+					    datasets: [
+					        {
+					            label: "Usuarios",
+					            fill: false,
+					            lineTension: 0.1,
+					            backgroundColor: "rgba(75,192,192,0.4)",
+					            borderColor: "rgba(75,192,192,1)",
+					            borderCapStyle: 'butt',
+					            borderDash: [],
+					            borderDashOffset: 0.0,
+					            borderJoinStyle: 'miter',
+					            pointBorderColor: "rgba(75,192,192,1)",
+					            pointBackgroundColor: "#fff",
+					            pointBorderWidth: 1,
+					            pointHoverRadius: 5,
+					            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+					            pointHoverBorderColor: "rgba(220,220,220,1)",
+					            pointHoverBorderWidth: 2,
+					            pointRadius: 1,
+					            pointHitRadius: 10,
+					            data: dat,
+					        }
+					    ]
+					};
+					var ctx = $("#myChart");
+					var myLineChart = new Chart(ctx, {
+					    type: 'line',
+					    data: data,
+					    options: {
+					        scales: {
+					            yAxes: [{
+					                ticks: {
+					                    beginAtZero:true
+					                }
+					            }]
+					        }
+					    }
+					});
+
+	             }
+	        });
+			$.ajax({
+	           type: "POST",
+	           url: "php/init.php",
+	           data: "init=GET_general", // Adjuntar los campos del formulario enviado.
+	           success: function(response){
+	           		console.log(response);	
+	           		
+	               	obj = eval("("+response+")");
+	               	$("#tiempo").html(obj.Tiempo);
+	               	$("#usuarios").html(obj.totalUsuarios);
+	               	$("#enProceso").html(obj.enProceso);
+	               	$("#atendidos").html(obj.completado);
+	               	$("#promedio").html(obj.promedio);
+	               	console.log(obj);
+	        		
+	        	}
+	        });
+	    $(document).ready( function () { 
+			$.ajax({
+	           type: "POST",
+	           url: "php/init.php",
+	           data: "init=GET_modulos", // Adjuntar los campos del formulario enviado.
+	           success: function(response){
+	           		console.log(response);			
+	               	obj = eval("("+response+")");
+	               	console.log(obj);
+	               
+	        	  body = "<table class='ui table' style='width: 100%;'><thead><tr><th>Modulo</th><th>Encargado</th><th>Total atendidos</th><th>Promedio de atencion</th><th>Estado</th><tr></thead><tbody>";
+	              for (var i = 0; i < obj[0].count; i++) {
+	              	body += "<tr><td>"+obj[i].Nombre+"</td><td>"+obj[i].Encargado+"</td><td>"+obj[i].total+"</td><td>"+obj[i].promedio+"</td>";
+	              	if(obj[i].activo){
+	              		body += "<td><label class='ui green label'>Activo</label></td>";
+	              	} else {
+	              		body += "<td><label class='ui red label'>Inactivo</label></td>";
+	              	}
+	              	body+= "</tr>";
+	              }
+	              	body += 	"</tbody></table>";
+	        		$("#modulotable").html(body);
+	        	}
+	        });
+		});
+
+	</script>
+
+
+</head>
+<body>
+<center>
+	<img src="img/logo1.png" style="width: 30%;">
+</center>
+<div class="ui divider"></div>
+<div class="ui grid">
+	<div class="ten wide column">
+		<div class="ui blue attached segment" >
+			<div style="width: 100%; ">
+				<canvas id="myChart" style="width: 100%; "></canvas>
+			</div>
+		</div>
+		<div class="ui bottom attached info message">
+		  <i class="icon users"></i>
+		  Hora de llegada de los usuarios
+		</div>
+	</div>
+	<div class="six wide column" style="height: 100%;">
+		<div class="ui purple segment table" style="height: 100%;" >
+			<table class="ui attached table">
+				<thead>
+					<tr>
+						<th>Operacion</th>
+						<th>Promedio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Tiempo transcurrido</td>
+						<td id='tiempo'></td>
+					</tr>
+					<tr>
+						<td>Total de usuarios</td>
+						<td id='usuarios'></td>
+					</tr>
+					<tr>
+						<td>Usarios en proceso</td>
+						<td id='enProceso'></td>
+					</tr>
+					<tr>
+						<td>Usuarios atendidos</td>
+						<td id='atendidos'></td>
+					</tr>
+					<tr>
+						<td>Promedio de atencion</td>
+						<td id='promedio'></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		<div class="ui bottom attached purple message">
+		  <i class="icon bar chart"></i>
+		  Estadisticas generales
+		</div>	
+		</div>
+		
+	</div>
+</div>
+
+<div class="ui teal table" >
+		<span id='modulotable'></span>
+
+</div>
+
+
+</body>
+</html>
+
