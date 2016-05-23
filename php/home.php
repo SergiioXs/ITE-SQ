@@ -138,8 +138,14 @@ $("#confirm").on('click', function () {
 	</h2>
 </center>
 <p>
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc facilisis nunc et tortor mollis feugiat. Donec eu bibendum ipsum, in vestibulum arcu. Vivamus dapibus nibh a arcu ornare, eget condimentum est mollis. Maecenas elementum ut ligula ut tincidunt. Nulla ut magna luctus, tincidunt nisl ac, sodales libero. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean condimentum leo quis urna egestas, sit amet ultrices magna blandit. Nunc tortor erat, varius vitae felis ac, fringilla efficitur urna. Fusce aliquam ipsum quis turpis euismod, sit amet facilisis dolor elementum. Phasellus hendrerit erat lacinia neque ornare, quis faucibus ex lacinia. Morbi non varius nisl, nec efficitur leo.
+ Bienvenido administrador! Con el sistema ITE-SQ podras crear tantos procesos como asi los requiera su empresa y los modulos necesarios para poder atender dichos procesos, con la facilidad de editar el flujo que tendran estos modulos dentro de los procesos para que sus clientes puedan realizarlos de manera clara y ordenada. Ademas si asi lo requiere, podra tratar a sus clientes de una manera mas personalizada, ya que puede introducir una base de datos con los posibles clientes que realizaran sus procesos o bien agregarlos en el modulo de registro. 
 <br><br>
+ Ademas podras personalzar los modulos creados asignandoles un nombre de modulo, encargado y si asi lo requiere combinar 1 o mas modulos para que actueen de la misma manera(Ejemplo: 3 modulos de atención al cliente, donde el cliente podra pasar a cualquiera de los 3 siempre y cuando este desocupado). Cada encargado de modulo tendra su propia pantalla donde podra visualizar los clientes que el sistema le otorgara para atender, asi como sus estadisticas de tiempos de atencion al cliente, espera, entre otros.
+ <br> <br>
+ Porque nos preocupa la espera de sus clientes, el sistema tendra una pantalla donde usted podra escojer algun tipo de entretenimiento de espera, ya sea algun video, el logo de su compañia, instrucciones, etc. Ademas de avisar al siguiente cliente para ser atendido a que modulo debe acudir. 
+<br><br>
+
+ Para comenzar a utilizar ITE-SQ debes de llenar la siguiente informacion:
 </p>
 
 <div class="ui blue segment" id='processsegment'>

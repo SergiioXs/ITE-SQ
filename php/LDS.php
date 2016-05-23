@@ -130,6 +130,38 @@ date_default_timezone_set("America/Ensenada");
     return date("Y-m-d");
   }
 
+  //Descompone una hora en su total de segundos
+  function cnvTimeToSeconds($x){
+    $Time = (preg_split("[:]", $x));
+    $h = $Time[0] * 3600;
+    $m = $Time[1] * 60;
+    $s = $Time[2];
+    //Return wholeSeconds
+  return $h+$m+$s;
+}
+
+//Convierte los segundos dados en una hora completa h:m:s
+  function cnvSeconds($x){
+  //Dar formato TIME
+    $s = $x;
+    $h = 0;
+    $m = 0;
+    $h = floor($x/3600);
+    $m = floor(($x-($h*3600))/60);
+    $s = $x-($h*3600)-($m*60);
+   
+
+    if($s < 10)
+      $s = "0".$s;
+      
+    if($m < 10)
+      $m = "0".$m;
+
+    if($h < 10)
+      $h = "0".$h;
+
+    return $h.":".$m.":".$s;
+}
   # Convierte la hora a como nosotros le indiquemos en la variable $show, 
     # ejemplo: getCurrentTime_Format("h:m", false); No mostrara 05:28 p. m.
     # El segundo parametro ($format) es para decir si es de 12 o 24 horas,
