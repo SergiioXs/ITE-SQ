@@ -16,6 +16,16 @@
 		
 
 			$(document).ready( function () {
+				$.ajax({
+		           type: "POST",
+		           url: "php/init.php",
+		           data: "init=start", // Adjuntar los campos del formulario enviado.
+		           success: function(data){	
+		               	obj = eval("("+data+")");
+		               	$("#Nombre_empresa").html(obj.Nombre);
+		               	$("#Slogan_empresa").html(obj.Slogan);
+		            	}
+	        	});
 				if(localStorage.getItem("id") <= 0) {
 					$("#loginbutton").on("click", function () {
 
@@ -63,8 +73,10 @@
 			<center>
 				<h2 class="ui header ">
 				  <div class="content" id='ITE' style='color: white'>
-				    Instituto Técnologico de Ensenada
-				    <div class="sub header" style='color: #D8D8D8'>Sistema de gestión de colas de espera</div>
+				     <span id='Nombre_empresa'></span>
+					    <div class="sub header" style='color: #D8D8D8'>
+					    	<span id='Slogan_empresa'></span> 
+					    </div>
 				  </div>
 				</h2>
 			</center>
@@ -75,7 +87,7 @@
 		<center>
 		<div style='width: 300px;   margin-top: 40px;' class='ui segment'>
 			<center>
-				<img src="img/ITElogo.png" style=' width: 150px; '>
+				<img src="img/logo1.png" style=' width: 100%; '>
 			</center>
 			<br><br>
 				<div class="ui input" style='width: 100%; margin-top: 10px;'>

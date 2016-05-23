@@ -18,6 +18,7 @@
 		$(document).ready(function () {
 			//page = "home";
 			//$('#content').load('php/home.php');
+			obj = null;
 			$.ajax({
 	           type: "POST",
 	           url: "php/init.php",
@@ -28,6 +29,14 @@
 	               	$("#Slogan_empresa").html(obj.Slogan);
 	               	if(obj.Activo){
 	               		$("#procesos, #modulo, #database, #cola").css("display", "inline");
+	               		//Home Activo
+						$('#content').load('html/dashboard.html');
+						$('#home').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('html/dashboard.html');
+							$('#buscar').addClass('disabled');
+							$("#contloader").html("");
+						});
 	               		//Procesos
 						$('#procesos').on('click', function () {
 							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
@@ -60,28 +69,25 @@
 							$("#contloader").html("");
 						});
 	               	} else {
-
+						//Home Activo
+						$('#content').load('php/home.php');
+						$('#home').on('click', function () {
+							$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
+							$('#content').load('php/home.php');
+							$('#buscar').addClass('disabled');
+							$("#contloader").html("");
+						});
 	               	}
 	           }
 	        });
+
 			page = "home";
-			$('#content').load('php/home.php');
 			
 			$('a.item').on('click', function () {
 			    $('a').removeClass('active'); 
 			    $(this).addClass('active');
 			});
 		//Pestañas
-
-			//Home
-			$('#home').on('click', function () {
-				$("#contloader").html("<div class='ui inverted active dimmer'><div class='ui text loader'>Cargando</div></div>");
-				$('#content').load('php/home.php');
-				$('#buscar').addClass('disabled');
-				$("#contloader").html("");
-			});
-
-			
 
 			//Configuraciones
 			$('#configuracion').on('click', function () {
